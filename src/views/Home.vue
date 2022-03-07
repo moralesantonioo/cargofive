@@ -63,7 +63,7 @@ export default {
     //Se realizó el uso de axios para poder hacer el llamado a la api y obtener los datos a utilizar
     async cargofiveData(page) {
       await axios
-        .get(`http://apitest.cargofive.com/api/ports?page=${page}`)
+        .get(`https://apitest.cargofive.com/api/ports?page=${page}`)
         .then((response) => { 
           this.data = response.data.data;
           this.dataFilters = response.data.data;
