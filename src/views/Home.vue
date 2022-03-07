@@ -1,13 +1,13 @@
 <template>
   <div class="container">
     <b-row class="filters"> <!-- inputs para realizar los filtros, se hace uso de un v-select y un v-input, css Bootstrap Vue  -->
-      <h1 class="title">Filtros: </h1>
+      <h1 class="title">Filtros:</h1>
       <b-col>
-        <span>Seleccione opción a filtrar: </span>
+        <span>Seleccione opción a filtrar:</span>
         <b-form-select v-model="selected" :options="options" class="v-select-style"></b-form-select>
       </b-col>
       <b-col>
-        <span class="search">Búsqueda: </span>
+        <span class="search">Búsqueda:</span>
         <b-form-input
           @keyup="filters(busqueda)"
           v-model="busqueda"
