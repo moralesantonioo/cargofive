@@ -19,6 +19,7 @@
     </b-row >
     <!-- table en donde se muestran los datos al hacer el llamado a la api, css Bootstrap Vue  -->
     <b-table 
+      v-if="!show"
       class="table"
       :items="data"
       :responsive="true"
@@ -26,6 +27,7 @@
     ></b-table>
     <!-- paginación con sus datos respectivos que se traen de la api, css Bootstrap Vue  -->
     <b-pagination
+      v-if="!show"
       v-model="currentPage"
       @change="nextData($event)"
       :per-page="perPage"
@@ -34,11 +36,14 @@
       size="sm"
       align="center"
     ></b-pagination>
+    <!-- componente de loader -->
+    <loader v-if="show" :show="show"/>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import loader from "../components/loader.vue"
 
 export default {
   name: "Home",
@@ -51,8 +56,13 @@ export default {
       total: '',
       busqueda: '',
       selected: 'id',
-      options: ['id', 'country','continent']
+      options: ['id', 'country','continent'],
+      show: false
     };
+  },
+
+  components:{
+    loader
   },
 
   mounted() {
@@ -62,9 +72,11 @@ export default {
   methods: {
     //Se realizó el uso de axios para poder hacer el llamado a la api y obtener los datos a utilizar
     async cargofiveData(page) {
+      this.show = true
       await axios
         .get(`https://apitest.cargofive.com/api/ports?page=${page}`)
         .then((response) => { 
+          this.show = false
           this.data = response.data.data;
           this.dataFilters = response.data.data;
           this.current_page = response.data.meta.current_page;
@@ -72,12 +84,16 @@ export default {
           this.total = response.data.meta.total;
         })
         .catch((error) => {
+          this.show = false
           console.error(error);
         });
     },
     // El metodo nextData es el metodo para la paginación, donde se llama al metodo cargofiveData y asi obtener los datos siguientes
     async nextData(numberPage) {
+      
       await this.cargofiveData(numberPage);
+      this.currentPage = numberPage;
+      
       //limpiar los inputs al momento de cambiar pagina 
       this.busqueda = ''
       this.selected = 'id'
