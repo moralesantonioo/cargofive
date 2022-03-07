@@ -47,7 +47,7 @@ export default {
       data: [],
       dataFilters: [],
       perPage: '',
-      currentPage: '',
+      currentPage: 1,
       total: '',
       busqueda: '',
       selected: 'id',
